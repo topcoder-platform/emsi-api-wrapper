@@ -1,0 +1,28 @@
+{
+  "name": "emsi-api-wrapper",
+  "version": "1.0.0",
+  "description": "Provides utility functions to interact with EMSI/Lightcast APIs",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/topcoder-platform/emsi-api-wrapper.git"
+  },
+  "author": "Jaouad Jaghrir",
+  "bugs": {
+    "url": "https://github.com/topcoder-platform/emsi-api-wrapper/issues"
+  },
+  "homepage": "https://github.com/topcoder-platform/emsi-api-wrapper#readme",
+  "dependencies": {
+    "axios": "^1.2.1",
+    "axios-request-throttle": "^1.0.0",
+    "lodash": "^4.17.21",
+    "qs": "^6.11.0"
+  },
+  "devDependencies": {
+    "standard": "^17.0.0"
+  }
+}
