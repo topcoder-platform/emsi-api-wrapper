@@ -60,6 +60,7 @@ const extractSkillsFromText = async (config, text, token) => {
     emsiSkills.push(
       {
         skillId: emsiSkill.skill.id,
+        name: emsiSkill.skill.name,
         category: categoryInfo.category,
         subcategory: categoryInfo.subCategory,
         confidence: emsiSkill.confidence
