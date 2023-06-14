@@ -1,5 +1,6 @@
 const emsiApiWrapper = require('emsi-api-wrapper')
 const config = require('config')
+const fs = require('fs')
 
 const client = emsiApiWrapper(config);
 (async () => {
@@ -26,4 +27,9 @@ const client = emsiApiWrapper(config);
 
   const searchSkillsResult = await client.searchSkills(searchCriteria, token)
   console.log(`The searched skills are = ${JSON.stringify(searchSkillsResult, null, 2)}`)
+
+  console.log('Extract skills from file name')
+  const file = fs.readFileSync('./resume.docx', { encoding: 'utf-8' })
+  const skillsFromFile = await client.extractSkillsFromFile(Buffer.from(file), 'docx', token)
+  console.log(`The extracted skill are: ${JSON.stringify(skillsFromFile)}`)
 })()
