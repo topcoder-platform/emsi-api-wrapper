@@ -113,17 +113,24 @@ const getSkillCategoryInfo = async (config, skillId, token) => {
 }
 
 /**
- * Get all EMSI skills
  *
- * @param {String} token the emsi skill API access token
+ * @param {Object} config - The configuration object
+ * @param {Object} criteria - The query string key, value
+ * @param {String} token - The bearer token
  * @returns
  */
 const searchSkills = async (config, criteria, token) => {
-  const query = `?${queryString.encode(criteria)}`
+  let url
+  if (_.isNull(criteria) || _.isEmpty(criteria) || _.isUndefined(criteria)) {
+    url = `${config.EMSI_SKILLS_API.BASE_URL}/versions/${config.EMSI_SKILLS_API.VERSION}/skills`
+  } else {
+    const query = `?${queryString.encode(criteria)}`
+    url = `${config.EMSI_SKILLS_API.BASE_URL}/versions/${config.EMSI_SKILLS_API.VERSION}/skills${query}`
+  }
 
   const axiosConfig = {
     method: 'get',
-    url: `${config.EMSI_SKILLS_API.BASE_URL}/versions/${config.EMSI_SKILLS_API.VERSION}/skills${query}`,
+    url,
     headers: {
       Authorization: `Bearer ${token}`
     }
