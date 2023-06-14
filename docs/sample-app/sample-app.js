@@ -28,8 +28,11 @@ const client = emsiApiWrapper(config);
   const searchSkillsResult = await client.searchSkills(searchCriteria, token)
   console.log(`The searched skills are = ${JSON.stringify(searchSkillsResult, null, 2)}`)
 
-  console.log('Extract skills from file name')
-  const file = fs.readFileSync('./resume.docx', { encoding: 'utf-8' })
-  const skillsFromFile = await client.extractSkillsFromFile(Buffer.from(file), 'docx', token)
+  /**
+   * This extraction from file API only supoports utf-8 encoded PDF and docx file
+   */
+  console.log('Extract skills from file')
+  const file = fs.readFileSync('./resume.docx')
+  const skillsFromFile = await client.extractSkillsFromFile(Buffer.from(file, 'utf-8'), 'docx', token)
   console.log(`The extracted skill are: ${JSON.stringify(skillsFromFile)}`)
 })()
