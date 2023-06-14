@@ -85,6 +85,7 @@ const extractSkillsFromFile = async (config, binaryData, fileType, token) => {
 
   // pdf and doc files are only allowed
   if (fileType !== 'pdf' && fileType !== 'docx') {
+    console.log(`Supported file types are pdf and docx. The API does not support file type ${fileType}`)
     return []
   }
 
