@@ -71,6 +71,58 @@ const extractSkillsFromText = async (config, text, token) => {
 }
 
 /**
+ *
+ * @param {Object} config - The configuration object
+ * @param {Buffer} binaryData - The binary data of the file to extract EMSI skills from
+ * @param {String} fileType - The type of file
+ * @param {String} token - The EMSI skills API token
+ * @returns
+ */
+const extractSkillsFromFile = async (config, binaryData, fileType, token) => {
+  if (_.isEmpty(binaryData) || _.isNull(binaryData) || _.isUndefined(binaryData)) {
+    return []
+  }
+
+  // pdf and doc files are only allowed
+  if (fileType !== 'pdf' && fileType !== 'docx') {
+    console.log(`Supported file types are pdf and docx. The API does not support file type ${fileType}`)
+    return []
+  }
+
+  const contentType = fileType === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+
+  const axiosConfig = {
+    method: 'post',
+    url: `${config.EMSI_SKILLS_API.BASE_URL}/versions/${config.EMSI_SKILLS_API.VERSION}/extract`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': contentType
+    },
+    data: binaryData
+  }
+
+  const response = await axios(axiosConfig)
+
+  const emsiSkills = []
+
+  // iterate over the EMSI skills data
+  for (const emsiSkill of response.data.data) {
+    const categoryInfo = await getSkillCategoryInfo(config, emsiSkill.skill.id, token)
+
+    emsiSkills.push(
+      {
+        skillId: emsiSkill.skill.id,
+        name: emsiSkill.skill.name,
+        category: categoryInfo.category,
+        subcategory: categoryInfo.subCategory,
+        confidence: emsiSkill.confidence
+      })
+  }
+
+  return emsiSkills
+}
+
+/**
  * Gets the EMSI skills related to the given skills Ids
  *
  * @param {Array} skillIds An array of skills ids for which to retrieve the related skills
@@ -144,5 +196,6 @@ module.exports = {
   getSkillById,
   searchSkills,
   extractSkillsFromText,
+  extractSkillsFromFile,
   getRelatedSkills
 }

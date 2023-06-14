@@ -13,6 +13,9 @@ module.exports = (config) => {
     extractSkillsFromText: (text, token) => {
       return require('./src/services/EmsiSkillService').extractSkillsFromText(config, text, token)
     },
+    extractSkillsFromFile: (binaryData, fileType, token) => {
+      return require('./src/services/EmsiSkillService').extractSkillsFromFile(config, binaryData, fileType, token)
+    },
     getRelatedSkills: (skillIds, token) => {
       return require('./src/services/EmsiSkillService').getRelatedSkills(config, skillIds, token)
     }
