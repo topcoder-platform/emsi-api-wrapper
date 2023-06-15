@@ -7,6 +7,24 @@ const client = emsiApiWrapper(config);
   // Get API token
   const token = await client.getApiToken()
 
+  /**
+   * Version information API
+   */
+  console.log('Version API')
+  let detailedVersionInfo = await client.getVersionDetails(false, token)
+  console.log(`Full version details: ${JSON.stringify(detailedVersionInfo)}`)
+  detailedVersionInfo = await client.getVersionDetails(true, token)
+  console.log(`Only version details: ${JSON.stringify(detailedVersionInfo)}`)
+
+  /**
+   * Version change-log API
+   */
+  console.log('Version change-log API')
+  let versionChangeLog = await client.getVersionChanges('latest', token)
+  console.log(`Latest version changes: ${JSON.stringify(versionChangeLog)}`)
+  versionChangeLog = await client.getVersionChanges('8.33', token)
+  console.log(`8.33 version changes: ${JSON.stringify(versionChangeLog)}`)
+
   const text = 'Java Backend API'
 
   console.log(`Extract skills from text '${text}'`)

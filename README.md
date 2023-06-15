@@ -5,8 +5,10 @@ This EMSI API wrapper exposes the following functions to interact with EMSI api:
 1. getApiToken() - Generate a jwt token to use with subsequent EMSI API calls
 2. getSkillById(skillId, token) - Get the EMSI skill details by emsi skill id
 3. extractSkillsFromText(text, token) - Extract the EMSI skills from the given text
-4. getRelatedSkills(skillIds, token) - Get the skills related to given skills ids
-5. searchSkills(criteria, token) - Get all EMSI skills matching the given criteria, the search criteria is an
+4. extractSkillsFromFile(binaryData, fileType, token) - Extract the EMSI skills from the given file, 
+                                                        file must be utf-8 encoded pdf or docx
+5. getRelatedSkills(skillIds, token) - Get the skills related to given skills ids
+6. searchSkills(criteria, token) - Get all EMSI skills matching the given criteria, the search criteria is an
                                    object which has the same fields as the url parameters of the GET /skills endpoint
                                    see query parameters names at https://api.lightcast.io/apis/skills#get-list-all-skills
 
@@ -59,8 +61,26 @@ const client = emsiApiWrapper(config);
 3. Call the wrapper functions:
 ```javascript
 const token = await client.getApiToken()
-const text = 'Java Backend API'
 
+/**
+* Version information API
+*/
+console.log(`Version API`)
+let detailedVersionInfo = await client.getVersionDetails(false, token)
+console.log(`Full version details: ${JSON.stringify(detailedVersionInfo)}`)
+detailedVersionInfo = await client.getVersionDetails(true, token)
+console.log(`Only version details: ${JSON.stringify(detailedVersionInfo)}`)
+
+/**
+* Version change-log API
+*/
+console.log('Version change-log API')
+let versionChangeLog = await client.getVersionChanges('latest', token)
+console.log(`Latest version changes: ${JSON.stringify(versionChangeLog)}`)
+versionChangeLog = await client.getVersionChanges('8.33', token)
+console.log(`8.33 version changes: ${JSON.stringify(versionChangeLog)}`)
+
+const text = 'Java Backend API'
 const emsiSkills = await client.extractSkillsFromText(text, token)
 
 for(const emsiSkill of emsiSkills) {

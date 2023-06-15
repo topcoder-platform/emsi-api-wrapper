@@ -192,10 +192,39 @@ const searchSkills = async (config, criteria, token) => {
   return response.data.data
 }
 
+const getVersionDetails = async (config, onlyVersionFlag, token) => {
+  const axiosConfig = {
+    method: 'get',
+    url: `${config.EMSI_SKILLS_API.BASE_URL}/versions/${config.EMSI_SKILLS_API.VERSION}`,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const response = await axios(axiosConfig)
+  return onlyVersionFlag === false || _.isUndefined(onlyVersionFlag) ? response.data.data : response.data.data.version
+}
+
+const getVersionChanges = async (config, version, token) => {
+  version = _.isUndefined(version) || _.isNull(version) || _.isEmpty(version) ? 'latest' : version
+  const axiosConfig = {
+    method: 'get',
+    url: `${config.EMSI_SKILLS_API.BASE_URL}/versions/${version}/changes`,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const response = await axios(axiosConfig)
+  return response.data.data
+}
+
 module.exports = {
   getSkillById,
   searchSkills,
   extractSkillsFromText,
   extractSkillsFromFile,
-  getRelatedSkills
+  getRelatedSkills,
+  getVersionDetails,
+  getVersionChanges
 }
