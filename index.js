@@ -21,6 +21,9 @@ module.exports = (config) => {
     },
     getVersionDetails: (onlyVersionFlag, token) => {
       return require('./src/services/EmsiSkillService').getVersionDetails(config, onlyVersionFlag, token)
+    },
+    getVersionChanges: (version, token) => {
+      return require('./src/services/EmsiSkillService').getVersionChanges(config, version, token)
     }
   }
 }
