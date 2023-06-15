@@ -18,6 +18,9 @@ module.exports = (config) => {
     },
     getRelatedSkills: (skillIds, token) => {
       return require('./src/services/EmsiSkillService').getRelatedSkills(config, skillIds, token)
+    },
+    getVersionDetails: (onlyVersionFlag, token) => {
+      return require('./src/services/EmsiSkillService').getVersionDetails(config, onlyVersionFlag, token)
     }
   }
 }
