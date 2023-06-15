@@ -7,6 +7,15 @@ const client = emsiApiWrapper(config);
   // Get API token
   const token = await client.getApiToken()
 
+  /**
+   * Version information API
+   */
+  console.log(`Version API`)
+  let detailedVersionInfo = await client.getVersionDetails(false, token)
+  console.log(`Full version details: ${JSON.stringify(detailedVersionInfo)}`)
+  detailedVersionInfo = await client.getVersionDetails(true, token)
+  console.log(`Only version details: ${JSON.stringify(detailedVersionInfo)}`)
+
   const text = 'Java Backend API'
 
   console.log(`Extract skills from text '${text}'`)
